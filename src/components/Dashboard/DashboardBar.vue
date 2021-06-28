@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="#fcb69f" dark src="https://picsum.photos/1920/1080?random">
+  <v-app-bar color="#fcb69f" dark>
     <template v-slot:img="{ props }">
       <v-img
         v-bind="props"

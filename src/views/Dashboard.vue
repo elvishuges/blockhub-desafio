@@ -6,7 +6,7 @@
       :drawer="drawer"
     />
     <dashboard-bar @open-drawer="handleOpenDrawerEvent" />
-    <router-view></router-view>
+    <div class="pa-6"><router-view></router-view></div>
   </v-app>
 </template>
 
@@ -27,12 +27,17 @@ export default {
         {
           title: "Projeto",
           icon: "mdi-plus",
-          route: "/projeto/add",
+          route: "/dashboard/projects",
         },
         {
-          title: "Jobs",
+          title: "Usuários",
           icon: "mdi-eye",
-          route: "/projetos",
+          route: "/dashboard/users",
+        },
+        {
+          title: "Horas",
+          icon: "mdi-clock",
+          route: "/dashboard/hours",
         },
         {
           title: "Editar dados",
@@ -57,4 +62,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss"></style>
