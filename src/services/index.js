@@ -1,6 +1,6 @@
 var axios = require("axios");
 
-export const desafioBaseURL = "https://api-desafioblockub.herokuapp.com/";
+export const desafioBaseURL = "https://api-desafio-blockub.herokuapp.com/";
 
 export const desafioAPI = axios.create({
   baseURL: desafioBaseURL,

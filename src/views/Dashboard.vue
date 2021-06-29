@@ -22,7 +22,7 @@ export default {
         {
           title: "Dashboard",
           icon: "mdi-puzzle-edit-outline",
-          route: "/dashboard",
+          route: "/dashboard/index",
         },
         {
           title: "Projeto",

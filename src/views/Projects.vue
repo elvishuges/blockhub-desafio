@@ -14,6 +14,8 @@
       </v-card-title>
       <v-data-table
         :headers="headers"
+        loading-text="Loading... Please wait"
+        :loading="loadingData"
         :items="desserts"
         :search="search"
       ></v-data-table> </v-card
@@ -26,6 +28,7 @@ export default {
   data() {
     return {
       search: "",
+      loadingData: false,
       headers: [
         {
           text: "Ativo ",
@@ -58,15 +61,21 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.getAllProjects();
+  },
 
   methods: {
     getAllProjects() {
-      ProjectService.getProjects()
+      this.loadingData = true;
+      ProjectService.getAllProjects()
         .then((rsp) => {
           console.log("getAllProjects", rsp);
+          this.loadingData = false;
         })
         .catch((error) => {
           console.log("Error Catch", error);
+          this.loadingData = false;
         });
     },
   },
