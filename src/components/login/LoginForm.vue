@@ -15,11 +15,11 @@
           v-on:keyup.enter="$refs.form.validate() && login()"
         ></v-text-field>
         <v-text-field
-          v-model="form.senha"
-          :rules="senhaRules"
+          v-model="form.password"
+          :rules="passwordRules"
           prepend-icon="mdi-lock"
-          name="senha"
-          label="Senha"
+          name="password"
+          label="password"
           type="password"
           outlined
           dense
@@ -38,7 +38,7 @@
       >
     </v-card-actions>
     <v-card-actions>
-          <v-btn @click="register()" dark block color="secondary">Register</v-btn>
+      <v-btn @click="register()" dark block color="secondary">Register</v-btn>
     </v-card-actions>
   </div>
 </template>
@@ -56,9 +56,9 @@ export default {
       validFormLogin: true,
       form: {
         email: "",
-        senha: "",
+        password: "",
       },
-      senhaRules: [(v) => !!v || "Campo obrigatório"],
+      passwordRules: [(v) => !!v || "Campo obrigatório"],
       emailRules: [
         (value) => !!value || "Campo Obrigatório.",
         (v) => /.+@.+\..+/.test(v) || "E-mail deve ser válido",
@@ -66,15 +66,14 @@ export default {
     };
   },
   methods: {
-    login: function () {
+    login: function() {
       this.$emit("submitFormLogin", this.form);
     },
-    register: function () {
+    register: function() {
       this.$router.push("/register");
     },
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

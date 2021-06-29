@@ -5,27 +5,38 @@
       <v-container fluid class="mt-4">
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md6>
-            <register-form @submitFormRegister="submit"></register-form>
+            <register-form
+              :loadingSubmitBottom="loading"
+              @submitFormRegister="submit"
+            ></register-form>
             <v-alert :value="alert" color="red">{{ msg }}</v-alert>
           </v-flex>
         </v-layout>
       </v-container>
     </v-container>
+    <alert-snack-bar :snackBarState="snackBarState" />
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import LoginRegisterBar from "@/components/LoginRegisterBar";
 import RegisterForm from "../components/register/RegisterForm.vue";
+import AlertSnackBar from "@/components/AlertSnackBar";
+
 export default {
   components: {
     LoginRegisterBar,
     RegisterForm,
+    AlertSnackBar,
   },
   data() {
     return {
       msg: "",
+      snackBarState: false,
       alert: false,
+      loading: false,
 
       nomeRules: [
         (v) => !!v || "Campo obrigatório",
@@ -50,14 +61,27 @@ export default {
     };
   },
 
+  mounted() {},
+
   methods: {
+    ...mapActions(["AUTH_REGISTER_REQUEST"]),
     handleLoginClick() {
       this.$router.push("/login");
     },
-    submit() {
-      // const { nome, nick, email, senha } = payload;
-      // this.alert = false;
-      // this.msg = "";
+    submit(payload) {
+      const { name, email, password } = payload;
+      this.AUTH_REGISTER_REQUEST({ name, email, password })
+        .then((rsp) => {
+          console.log("login", rsp);
+          this.loading = false;
+          this.snackBarState = true;
+          this.$router.push("/login");
+        })
+        .catch((e) => {
+          console.log("error login", e);
+          this.loading = false;
+          this.disableLoginButton = false;
+        });
     },
   },
 };

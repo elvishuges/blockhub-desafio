@@ -20,6 +20,8 @@
 </template>
 
 <script setup>
+import { mapActions } from "vuex";
+
 import LoginForm from "@/components/login/LoginForm";
 import LoginRegisterBar from "@/components/LoginRegisterBar";
 
@@ -37,8 +39,23 @@ export default {
     };
   },
   methods: {
-    submitForm() {
-      this.$router.push("/dashboard");
+    ...mapActions(["AUTH_LOGIN_REQUEST"]),
+    submitForm(payload) {
+      this.loading = true;
+      const { email, password } = payload;
+
+      this.AUTH_LOGIN_REQUEST({ email, password })
+        .then((rsp) => {
+          console.log("login", rsp);
+          this.showAlert = false;
+          this.loading = false;
+          this.$router.push("/dashboard");
+        })
+        .catch((e) => {
+          console.log("error login", e);
+          this.loading = false;
+          this.disableLoginButton = false;
+        });
     },
   },
 };

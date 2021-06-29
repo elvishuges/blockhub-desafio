@@ -5,7 +5,7 @@
       src="https://picsum.photos/1920/1080?random"
     >
       <v-icon large left>mdi-cube-unfolded</v-icon>
-      <span>Freendly</span>
+      <span>TIME WORK</span>
     </v-card-title>
     <v-divider />
     <v-card-text>
@@ -14,9 +14,9 @@
           <v-row>
             <v-col cols="12" class="pa-0">
               <v-text-field
-                v-model="form.nome"
+                v-model="form.name"
                 dense
-                :rules="nomeRules"
+                :rules="nameRules"
                 label="Nome"
                 required
                 outlined
@@ -35,22 +35,22 @@
 
             <v-col cols="12" sm="6" class="pl-1 pt-0 pr-1">
               <v-text-field
-                v-model="form.senha"
+                v-model="form.password"
                 ref="password"
                 type="password"
                 dense
-                :rules="senhaRules"
-                label="Senha"
+                :rules="passwordRules"
+                label="Password"
                 required
                 outlined
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" class="pl-0 pt-0 pr-0">
               <v-text-field
-                v-model="form.confirmeSenha"
+                v-model="form.confirmPassword"
                 dense
                 type="password"
-                :rules="confirmeSenhaRules"
+                :rules="confirmPasswordRules"
                 label="Comfirmar senha"
                 required
                 outlined
@@ -65,6 +65,7 @@
           <v-spacer></v-spacer>
           <v-btn
             large
+            :loading="loadingSubmitBottom"
             :rounded="false"
             dark
             color="secondary"
@@ -79,36 +80,38 @@
 
 <script>
 export default {
+  props: {
+    loadingSubmitBottom: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       form: {
-        nome: "",
-        nick: "",
+        name: "",
         email: "",
-        senha: "",
-        confirmeSenha: "",
+        password: "",
+        confirmPassword: "",
       },
       registerFormValid: true,
-      nomeRules: [
+      nameRules: [
         (v) => !!v || "Campo obrigatório",
         (v) => (v && v.length < 20) || "Nome deve ter menos de 20 caracteres",
       ],
       emailRules: [
         (v) => !!v || "Campo obrigatório",
         (v) => (v && v.length <= 30) || "Email deve ter menos de 30 caracteres",
+        (v) => /.+@.+\..+/.test(v) || "E-mail deve ser válido",
       ],
-      nickRules: [
-        (v) => !!v || "Campo obrigatório",
-        (v) => (v && v.length <= 15) || "Nick deve ter menos de 15",
-      ],
-      senhaRules: [
+      passwordRules: [
         (v) => !!v || "Campo obrigatório",
         (v) => (v && v.length < 20) || "Senha deve ter menos de 20 caracteres",
       ],
-      confirmeSenhaRules: [
+      confirmPasswordRules: [
         (value) => !!value || "Campo obrigatório",
         (value) =>
-          value === this.form.senha || "A senha confirmada não coincide.",
+          value === this.form.password || "A senha confirmada não coincide.",
       ],
     };
   },

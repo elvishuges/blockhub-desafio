@@ -9,7 +9,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     color: {
@@ -21,11 +20,8 @@ export default {
       default: "Title",
     },
   },
-  mounted() {
-    console.log("HEREE");
-  },
+  mounted() {},
 };
 </script>
 
-<style>
-</style>
+<style></style>
