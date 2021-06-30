@@ -7,9 +7,8 @@ export const desafioAPI = axios.create({
   baseURL: desafioBaseURL,
   /* other custom settings */
   headers: {
-    "Access-Control-Allow-Origin": "*",
-    Accept: "application/json",
+    Authorization: "Bearer " + getToken(),
     "Content-Type": "application/json",
-    "x-access-token": getToken(),
+    Accept: "application/json",
   },
 });
