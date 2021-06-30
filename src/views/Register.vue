@@ -1,7 +1,10 @@
 <template>
   <div>
     <v-container>
-      <login-register-bar color="primary" title="Freendly"></login-register-bar>
+      <login-register-bar
+        color="primary"
+        title="BlockHub builders"
+      ></login-register-bar>
       <v-container fluid class="mt-4">
         <v-layout align-center justify-center>
           <v-flex xs12 sm8 md6>
@@ -14,7 +17,11 @@
         </v-layout>
       </v-container>
     </v-container>
-    <alert-snack-bar :snackBarState="snackBarState" />
+    <alert-snack-bar
+      :text="textAlertSnack"
+      ref="ref-alert-snack-bar"
+      :snackBarState="snackBarState"
+    />
   </div>
 </template>
 
@@ -34,6 +41,7 @@ export default {
   data() {
     return {
       msg: "",
+      textAlertSnack: "",
       snackBarState: false,
       alert: false,
       loading: false,
@@ -65,20 +73,25 @@ export default {
 
   methods: {
     ...mapActions(["AUTH_REGISTER_REQUEST"]),
+
     handleLoginClick() {
       this.$router.push("/login");
     },
+
     submit(payload) {
+      console.log("payload", payload);
       const { name, email, password } = payload;
       this.AUTH_REGISTER_REQUEST({ name, email, password })
         .then((rsp) => {
           console.log("login", rsp);
           this.loading = false;
-          this.snackBarState = true;
-          this.$router.push("/login");
+          this.textAlertSnack = "Usuario cadastrado com sucesso !!";
+          this.$refs["ref-alert-snack-bar"].show();
         })
         .catch((e) => {
           console.log("error login", e);
+          this.textAlertSnack = "Algo deu errado !!";
+          this.$refs["ref-alert-snack-bar"].show();
           this.loading = false;
           this.disableLoginButton = false;
         });

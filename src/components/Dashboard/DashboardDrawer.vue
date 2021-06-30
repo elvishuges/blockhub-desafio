@@ -15,7 +15,7 @@
             >Time</v-list-item-title
           >
           <v-list-item-subtitle class="light-blue--text"
-            >Work</v-list-item-subtitle
+            >To Work</v-list-item-subtitle
           >
         </v-list-item-content>
       </v-list-item>
@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   props: {
     drawer: {
@@ -66,8 +67,17 @@ export default {
   },
   mounted() {},
   methods: {
+    ...mapActions(["AUTH_LOGOUT"]),
+
     logout() {
-      console.log("logout");
+      this.AUTH_LOGOUT()
+        .then((rsp) => {
+          console.log("rsp logout", rsp);
+          this.$router.push("/login");
+        })
+        .catch((e) => {
+          console.log("catch logout", e);
+        });
     },
     handleClickOutside() {
       console.log("aquiii");

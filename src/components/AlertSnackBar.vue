@@ -15,15 +15,20 @@
 <script>
 export default {
   props: {
-    snackBarState: {
-      type: Boolean,
-      default: false,
+    text: {
+      type: String,
+      default: "Usuário cadsatrado com sucesso !",
     },
   },
   data() {
     return {
-      text: "Usuário cadsatrado com sucesso !",
+      snackBarState: false,
     };
+  },
+  methods: {
+    show() {
+      this.snackBarState = true;
+    },
   },
 };
 </script>

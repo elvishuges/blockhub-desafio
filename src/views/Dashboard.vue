@@ -21,17 +21,17 @@ export default {
       drawerItens: [
         {
           title: "Dashboard",
-          icon: "mdi-puzzle-edit-outline",
+          icon: "mdi-chart-bar-stacked",
           route: "/dashboard/index",
         },
         {
           title: "Projeto",
-          icon: "mdi-plus",
+          icon: "mdi-sitemap",
           route: "/dashboard/projects",
         },
         {
           title: "Usuários",
-          icon: "mdi-eye",
+          icon: "mdi-account-group",
           route: "/dashboard/users",
         },
         {

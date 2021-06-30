@@ -1,6 +1,6 @@
 <template>
   <v-container class="column items-center">
-    <login-register-bar title="Freendly"></login-register-bar>
+    <login-register-bar title="BlockHub builders"></login-register-bar>
     <v-layout align-center justify-center>
       <v-flex xs12 sm6 md8 class="pr-3 pt-4 pl-3 hidden-sm-and-down">
         <v-img
@@ -42,6 +42,8 @@ export default {
     ...mapActions(["AUTH_LOGIN_REQUEST"]),
     submitForm(payload) {
       this.loading = true;
+      this.alert = false;
+      this.msg = "";
       const { email, password } = payload;
 
       this.AUTH_LOGIN_REQUEST({ email, password })
@@ -49,10 +51,12 @@ export default {
           console.log("login", rsp);
           this.showAlert = false;
           this.loading = false;
-          this.$router.push("/dashboard");
+          this.$router.push("/dashboard/index");
         })
         .catch((e) => {
           console.log("error login", e);
+          this.alert = true;
+          this.msg = "email ou senha incorretos";
           this.loading = false;
           this.disableLoginButton = false;
         });
