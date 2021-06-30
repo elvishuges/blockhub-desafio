@@ -48,6 +48,11 @@ let DashboardRoute = {
   ],
 };
 
-const routes = [LoginRoute, RegisterRoute, DashboardRoute];
+const routes = [
+  LoginRoute,
+  RegisterRoute,
+  DashboardRoute,
+  { path: "*", redirect: "/login" },
+];
 
 export default routes;

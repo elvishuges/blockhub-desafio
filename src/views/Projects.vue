@@ -2,7 +2,6 @@
   <v-app>
     <v-card>
       <v-card-title>
-        Projetos
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -18,8 +17,27 @@
         :loading="loadingData"
         :items="projects"
         :search="search"
-      ></v-data-table> </v-card
-  ></v-app>
+      >
+        <template v-slot:top>
+          <v-toolbar flat color="white">
+            <v-toolbar-title>
+              Projeto/Horas
+            </v-toolbar-title>
+            <v-divider class="mx-4" inset vertical></v-divider>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on"
+              >Cadastrar</v-btn
+            >
+          </v-toolbar>
+        </template>
+        <template v-slot:item.active="{ item }">
+          <v-chip :color="colorActive(item.active)" dark>
+            {{ item.active }}
+          </v-chip>
+        </template></v-data-table
+      >
+    </v-card></v-app
+  >
 </template>
 
 <script>
@@ -31,7 +49,7 @@ export default {
       loadingData: false,
       headers: [
         {
-          text: "Ativo ",
+          text: "Ativo",
           align: "center",
           sortable: false,
           value: "active",
@@ -59,6 +77,9 @@ export default {
           console.log("Error Catch", error);
           this.loadingData = false;
         });
+    },
+    colorActive(item) {
+      return item ? "blue" : "red";
     },
   },
 };
