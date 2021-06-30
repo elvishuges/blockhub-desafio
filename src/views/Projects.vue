@@ -25,9 +25,7 @@
             </v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
-            <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on"
-              >Cadastrar</v-btn
-            >
+            <v-btn color="primary" dark class="mb-2">Cadastrar</v-btn>
           </v-toolbar>
         </template>
         <template v-slot:item.active="{ item }">
