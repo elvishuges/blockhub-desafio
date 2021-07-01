@@ -2,8 +2,6 @@
   <v-app>
     <v-card>
       <v-card-title>
-        Usuários
-        <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
@@ -11,6 +9,7 @@
           single-line
           hide-details
         ></v-text-field>
+        <v-spacer></v-spacer>
       </v-card-title>
       <v-data-table
         :headers="headers"
@@ -18,7 +17,18 @@
         :loading="loadingData"
         :items="users"
         :search="search"
-        ><template v-slot:item.active="{ item }">
+      >
+        <template v-slot:top>
+          <v-toolbar flat color="white">
+            <v-toolbar-title>
+              Usuários
+            </v-toolbar-title>
+            <v-divider class="mx-4" inset vertical></v-divider>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" dark class="mb-2">Cadastrar</v-btn>
+          </v-toolbar>
+        </template>
+        <template v-slot:item.active="{ item }">
           <v-chip :color="colorActive(item.active)" dark>
             {{ item.active }}
           </v-chip>
