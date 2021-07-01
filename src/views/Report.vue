@@ -2,23 +2,52 @@
   <v-app>
     <v-row>
       <v-col cols="12" md="7">
-        <v-data-table
-          dense
-          :headers="headersProjectHours"
-          :items="projectHoursItemsTable"
-          item-key="name"
-          class="elevation-1"
-        >
-          <template v-slot:top>
-            <v-toolbar flat color="white">
-              <v-toolbar-title>
-                Projeto/Horas
-              </v-toolbar-title>
-              <v-divider class="mx-4" inset vertical></v-divider>
-              <v-spacer></v-spacer>
-            </v-toolbar>
-          </template>
-        </v-data-table>
+        <v-card>
+          <v-data-table
+            dense
+            :search="searchTable"
+            :loading="loadingData"
+            :headers="headersProjectHours"
+            :items="projectHoursItemsTable"
+            item-key="name"
+            class="elevation-1"
+          >
+            <template v-slot:body.prepend>
+              <tr>
+                <td>
+                  <v-text-field
+                    type="text"
+                    v-model="searchProject"
+                    label="Filtrar por projeto..."
+                  ></v-text-field>
+                  <v-text-field
+                    class="d-flex d-sm-none"
+                    type="text"
+                    v-model="searchDay"
+                    label="Filtrar por projeto..."
+                  ></v-text-field>
+                </td>
+                <td>
+                  <v-text-field
+                    class="d-none d-sm-flex"
+                    type="text"
+                    v-model="searchDay"
+                    label="Filtrar por data..."
+                  ></v-text-field>
+                </td>
+              </tr>
+            </template>
+            <template v-slot:top>
+              <v-toolbar flat color="white">
+                <v-toolbar-title>
+                  Horas/Projeto
+                </v-toolbar-title>
+                <v-divider class="mx-4" inset vertical></v-divider>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+            </template>
+          </v-data-table>
+        </v-card>
       </v-col>
       <v-col cols="12" md="5">
         <v-card class="pa-2" outlined tile>
@@ -53,6 +82,9 @@ export default {
   },
   data() {
     return {
+      searchProject: "",
+      searchDay: "",
+      loadingData: false,
       projectHoursItemsTable: [],
       allProject: [],
       allHours: [],
@@ -67,10 +99,23 @@ export default {
           align: "start",
           sortable: false,
           value: "project",
+          filter: (f) => {
+            return (f + "")
+              .toLowerCase()
+              .includes(this["searchProject"].toLowerCase());
+          },
         },
-        { text: "Data", value: "day" },
-        { text: "Horas (g)", value: "hours" },
-        { text: "Usuário (g)", value: "user" },
+        {
+          text: "Data",
+          value: "day",
+          filter: (f) => {
+            return (f + "")
+              .toLowerCase()
+              .includes(this["searchDay"].toLowerCase());
+          },
+        },
+        { text: "Horas ", value: "hours" },
+        { text: "Usuário", value: "user" },
       ],
     };
   },
@@ -80,6 +125,24 @@ export default {
   methods: {
     async getHoursAndProjects() {
       this.loadingChartPie = true;
+      this.loadingData = true;
+      try {
+        const responseProjectHours = await Promise.all([
+          HoursService.getAllHours(),
+          ProjectService.getAllProjects(),
+        ]);
+
+        this.allHours = responseProjectHours[0].data;
+        this.allProject = responseProjectHours[1].data;
+      } catch (error) {
+        this.loadingChartPie = false;
+        this.loadingData = false;
+      }
+      console.log("horas e projetos", this.allHours, this.allProject);
+      this.formatTableItems();
+      this.formataChartPieData();
+      this.loadingChartPie = false;
+      this.loadingData = false;
 
       const responseProjectHours = await Promise.all([
         HoursService.getAllHours(),
@@ -92,6 +155,7 @@ export default {
       this.formatTableItems();
       this.formataChartPieData();
       this.loadingChartPie = false;
+      this.loadingData = false;
     },
 
     formatTableItems() {

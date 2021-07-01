@@ -18,8 +18,14 @@
         :loading="loadingData"
         :items="users"
         :search="search"
-      ></v-data-table> </v-card
-  ></v-app>
+        ><template v-slot:item.active="{ item }">
+          <v-chip :color="colorActive(item.active)" dark>
+            {{ item.active }}
+          </v-chip>
+        </template></v-data-table
+      >
+    </v-card></v-app
+  >
 </template>
 
 <script>
@@ -52,7 +58,7 @@ export default {
       this.loadingData = true;
       UserService.getAllUsers()
         .then((rsp) => {
-          console.log("getAllProjects", rsp);
+          console.log("getAllUsers", rsp);
           this.users = rsp.data;
           this.loadingData = false;
         })
@@ -60,6 +66,9 @@ export default {
           console.log("Error Catch", error);
           this.loadingData = false;
         });
+    },
+    colorActive(item) {
+      return item ? "blue" : "red";
     },
   },
 };
