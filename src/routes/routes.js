@@ -8,10 +8,28 @@ const Projects = () => import("@/views/Projects.vue");
 const Users = () => import("@/views/Users.vue");
 const Hours = () => import("@/views/Hours.vue");
 
+import { getToken } from "@/store/utils/token";
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!getToken()) {
+    next("/login");
+    return;
+  }
+  next();
+};
+const ifAuthenticated = (to, from, next) => {
+  if (getToken()) {
+    next("/dashboard/index");
+    return;
+  }
+  next();
+};
+
 let LoginRoute = {
   path: "/login",
   component: Login,
   name: "Login",
+  beforeEnter: ifAuthenticated,
 };
 
 let RegisterRoute = {
@@ -24,6 +42,7 @@ let DashboardRoute = {
   path: "/dashboard",
   component: Dashboard,
   name: "dashboard",
+  beforeEnter: ifNotAuthenticated,
   children: [
     {
       path: "index",

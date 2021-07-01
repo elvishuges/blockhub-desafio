@@ -1,41 +1,49 @@
 <template>
   <div>
-    <apexcharts
-      type="pie"
-      width="380"
-      :options="chartOptions"
-      :series="series"
-    />
+    <div v-if="!loading">
+      <apexcharts
+        type="pie"
+        height="240"
+        :options="chartOptions"
+        :series="series"
+      />
+    </div>
+    <div v-else>
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "pie-chart",
+  props: {
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    series: {
+      type: Array,
+    },
+  },
   data() {
     return {
-      series: [44, 55, 13, 43, 22],
       chartOptions: {
         chart: {
           width: 380,
           type: "pie",
         },
-        labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
+        legend: {
+          position: "bottom",
+        },
+        labels: ["Team A", "Team B", "Team C"],
       },
     };
+  },
+  methods: {
+    updateLabels(labels) {
+      this.chartOptions.labels = labels;
+    },
   },
 };
 </script>

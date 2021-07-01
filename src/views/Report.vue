@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-row>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="7">
         <v-data-table
           dense
           :headers="headersProjectHours"
@@ -20,7 +20,7 @@
           </template>
         </v-data-table>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="5">
         <v-card class="pa-2" outlined tile>
           <v-card-title>
             <v-icon large left>
@@ -28,8 +28,12 @@
             </v-icon>
             <span class="text-h6 font-weight-light">Gráfico</span>
           </v-card-title>
-          <v-card-text class="text-h5 font-weight-bold">
-            <pie-chart />
+          <v-card-text class="text-h5 font-weight-bold d-flex justify-center">
+            <pie-chart
+              :series="seriesChartPie"
+              :loading="loadingChartPie"
+              ref="piechart"
+            />
           </v-card-text>
         </v-card>
       </v-col>
@@ -52,6 +56,11 @@ export default {
       projectHoursItemsTable: [],
       allProject: [],
       allHours: [],
+
+      seriesChartPie: [],
+
+      loadingChartPie: false,
+
       headersProjectHours: [
         {
           text: "Projeto",
@@ -70,6 +79,8 @@ export default {
   },
   methods: {
     async getHoursAndProjects() {
+      this.loadingChartPie = true;
+
       const responseProjectHours = await Promise.all([
         HoursService.getAllHours(),
         ProjectService.getAllProjects(),
@@ -77,11 +88,13 @@ export default {
 
       this.allHours = responseProjectHours[0].data;
       this.allProject = responseProjectHours[1].data;
+      console.log("horas e projetos", this.allHours, this.allProject);
       this.formatTableItems();
+      this.formataChartPieData();
+      this.loadingChartPie = false;
     },
-    formatTableItems() {
-      console.log("all ", this.allHours, this.allProject);
 
+    formatTableItems() {
       this.allHours.forEach((hour) => {
         let project = this.allProject.find(
           (project) => project._id === hour.project
@@ -94,9 +107,33 @@ export default {
             active: project.active,
           };
           this.projectHoursItemsTable.push(tableElement);
-          console.log("tableElement", tableElement);
         }
       });
+    },
+    formataChartPieData() {
+      let chartLabels = [];
+      let chartSeries = [];
+
+      this.allProject.forEach((project) => {
+        if (project.active) {
+          chartLabels.push(project.name);
+        }
+      });
+
+      this.allProject.forEach((project) => {
+        const projectHours = this.allHours.filter(
+          (hour) => hour.project === project._id
+        );
+        if (projectHours.length) {
+          const valueHours = projectHours.reduce(
+            (prev, curr) => curr.hours + prev,
+            0
+          );
+          chartSeries.push(valueHours);
+        }
+      });
+      this.seriesChartPie = chartSeries;
+      this.$refs.piechart.updateLabels(chartLabels);
     },
   },
 };
