@@ -23,7 +23,7 @@
                     class="d-flex d-sm-none"
                     type="text"
                     v-model="searchDay"
-                    label="Filtrar por projeto..."
+                    label="Filtrar por data..."
                   ></v-text-field>
                 </td>
                 <td>
@@ -54,7 +54,9 @@
             <v-icon large left>
               mdi-chart-bar-stacked
             </v-icon>
-            <span class="text-h6 font-weight-light">Gráfico</span>
+            <span class="text-h6 font-weight-light"
+              >Gráfico - projetos ativos</span
+            >
           </v-card-title>
           <v-card-text class="text-h5 font-weight-bold d-flex justify-center">
             <pie-chart
@@ -65,7 +67,27 @@
           </v-card-text>
         </v-card>
       </v-col>
+      <v-col cols="12">
+        <v-card class="pa-2" outlined tile>
+          <v-card-title>
+            <v-icon large left>
+              mdi-chart-bar-stacked
+            </v-icon>
+            <span class="text-h6 font-weight-light"
+              >Gráfico - Horas ao longo dos mêses</span
+            >
+          </v-card-title>
+          <v-card-text class="text-h5 font-weight-bold">
+            <bar-chart
+              :series="seriesBarChart"
+              :loading="loadingChartPie"
+              ref="barchart"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
+    <alert-snack-bar :text="textAlertSnack" ref="ref-alert-snack-bar" />
   </v-app>
 </template>
 
@@ -75,13 +97,20 @@ import HoursService from "./../services/HoursService";
 import UserService from "./../services/UserService";
 
 import PieChart from "@/components/Report/PieChart";
+import BarChart from "@/components/Report/BarChart";
+
+import AlertSnackBar from "@/components/AlertSnackBar";
 
 export default {
   components: {
     PieChart,
+    BarChart,
+    AlertSnackBar,
   },
   data() {
     return {
+      textAlertSnack: "",
+
       searchProject: "",
       searchDay: "",
       loadingData: false,
@@ -92,6 +121,13 @@ export default {
       allUsers: [],
 
       seriesChartPie: [],
+
+      seriesBarChart: [
+        {
+          label: "Horas:",
+          data: [],
+        },
+      ],
 
       loadingChartPie: false,
 
@@ -141,14 +177,19 @@ export default {
 
         this.formatTableItems();
         this.formataChartPieData();
+        this.foramtBarChartData(0);
       } catch (error) {
         this.loadingChartPie = false;
         this.loadingData = false;
+        this.textAlertSnack = error.toString();
+        this.$refs["ref-alert-snack-bar"].show();
       }
       console.log(
-        "horas e projetos users",
+        "horas ",
         this.allHours,
+        "Projetos",
         this.allProject,
+        "usuarios",
         this.allUsers
       );
 
@@ -174,14 +215,13 @@ export default {
         }
       });
     },
+
     formataChartPieData() {
       let chartLabels = [];
       let chartSeries = [];
 
       this.allProject.forEach((project) => {
-        if (project.active) {
-          chartLabels.push(project.name);
-        }
+        chartLabels.push(project.name);
       });
 
       this.allProject.forEach((project) => {
@@ -196,8 +236,31 @@ export default {
           chartSeries.push(valueHours);
         }
       });
+      console.log("chartLabels", chartLabels);
       this.seriesChartPie = chartSeries;
       this.$refs.piechart.updateLabels(chartLabels);
+    },
+
+    foramtBarChartData() {
+      // let chartCategories = [];
+      // let chartSeries = [];
+      this.groupByMouths(this.allHours);
+    },
+
+    groupByMouths(data) {
+      var groups = {};
+
+      data.forEach(function(val) {
+        var date = val.day.split("-")[1];
+        if (date in groups) {
+          groups[date].push(val.hours);
+        } else {
+          groups[date] = new Array(val.hours);
+        }
+      });
+
+      console.log(groups);
+      return groups;
     },
   },
 };

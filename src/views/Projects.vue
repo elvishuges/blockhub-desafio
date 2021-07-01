@@ -21,7 +21,7 @@
         <template v-slot:top>
           <v-toolbar flat color="white">
             <v-toolbar-title>
-              Horas
+              Projetos
             </v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
@@ -82,6 +82,7 @@
 <script>
 import ProjectService from "./../services/ProjectService";
 import AlertSnackBar from "@/components/AlertSnackBar";
+
 export default {
   components: {
     AlertSnackBar,
@@ -132,7 +133,6 @@ export default {
         });
     },
     save() {
-      console.log("save", this.editedItem);
       const { name } = this.editedItem;
       ProjectService.create({ name })
         .then((rsp) => {

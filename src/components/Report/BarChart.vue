@@ -2,11 +2,12 @@
   <div>
     <div v-if="!loading">
       <apexcharts
-        type="pie"
-        height="240"
+        :width="width"
+        height="350"
+        type="bar"
         :options="chartOptions"
         :series="series"
-      />
+      ></apexcharts>
     </div>
     <div v-else>
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -16,7 +17,7 @@
 
 <script>
 export default {
-  name: "pie-chart",
+  name: "bar-chart",
   props: {
     loading: {
       type: Boolean,
@@ -26,34 +27,30 @@ export default {
       type: Array,
     },
   },
-  data() {
+
+  data: function() {
     return {
+      width: "100%",
       chartOptions: {
         chart: {
-          width: 380,
-          type: "pie",
+          id: "basic-bar",
         },
-        legend: {
-          position: "bottom",
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
         },
-        tooltip: {
-          enabled: true,
-          y: {
-            formatter(val) {
-              return `${val} Horas`;
-            },
-          },
-        },
-        labels: ["Projeto X", "Projeto Y", "Projeto Z"],
       },
+      //   series: [
+      //     {
+      //       name: "series-1",
+      //       data: [30, 40, 45, 50, 49, 60, 70, 91],
+      //     },
+      //   ],
     };
   },
   methods: {
-    updateLabels(labels) {
-      this.chartOptions.labels = labels;
+    updateCategories(categories) {
+      this.chartOptions.xaxis.categories = categories;
     },
   },
 };
 </script>
-
-<style></style>
