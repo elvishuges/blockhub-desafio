@@ -5,7 +5,6 @@
         <v-card>
           <v-data-table
             dense
-            :search="searchTable"
             :loading="loadingData"
             :headers="headersProjectHours"
             :items="projectHoursItemsTable"
@@ -73,6 +72,7 @@
 <script>
 import ProjectService from "./../services/ProjectService";
 import HoursService from "./../services/HoursService";
+import UserService from "./../services/UserService";
 
 import PieChart from "@/components/Report/PieChart";
 
@@ -86,8 +86,10 @@ export default {
       searchDay: "",
       loadingData: false,
       projectHoursItemsTable: [],
+
       allProject: [],
       allHours: [],
+      allUsers: [],
 
       seriesChartPie: [],
 
@@ -130,30 +132,26 @@ export default {
         const responseProjectHours = await Promise.all([
           HoursService.getAllHours(),
           ProjectService.getAllProjects(),
+          UserService.getAllUsers(),
         ]);
 
         this.allHours = responseProjectHours[0].data;
         this.allProject = responseProjectHours[1].data;
+        this.allUsers = responseProjectHours[2].data;
+
+        this.formatTableItems();
+        this.formataChartPieData();
       } catch (error) {
         this.loadingChartPie = false;
         this.loadingData = false;
       }
-      console.log("horas e projetos", this.allHours, this.allProject);
-      this.formatTableItems();
-      this.formataChartPieData();
-      this.loadingChartPie = false;
-      this.loadingData = false;
+      console.log(
+        "horas e projetos users",
+        this.allHours,
+        this.allProject,
+        this.allUsers
+      );
 
-      const responseProjectHours = await Promise.all([
-        HoursService.getAllHours(),
-        ProjectService.getAllProjects(),
-      ]);
-
-      this.allHours = responseProjectHours[0].data;
-      this.allProject = responseProjectHours[1].data;
-      console.log("horas e projetos", this.allHours, this.allProject);
-      this.formatTableItems();
-      this.formataChartPieData();
       this.loadingChartPie = false;
       this.loadingData = false;
     },
@@ -163,11 +161,13 @@ export default {
         let project = this.allProject.find(
           (project) => project._id === hour.project
         );
+        let user = this.allUsers.find((user) => user._id === hour.user);
         if (project) {
           let tableElement = {
             project: project.name,
             hours: hour.hours,
             day: hour.day,
+            user: user ? user.name : "--",
             active: project.active,
           };
           this.projectHoursItemsTable.push(tableElement);
