@@ -14,3 +14,9 @@ Volte para a interface de login e logue.
 ## MINHAS INFORMAÇÔES !
 
 caso, ao logar no projeto, ocorra erro e não caregue as informações, peço que atualize a pagina. (isso pode ser um problema da API no heroku)
+
+## Notas de desenvolvimento !
+
+- Abra o menu lateral para acessar as outra paginas do sistema
+- para cadastrar um projeto, com suas devidas horas, acesse a item "Horas" no menu lateral.
+- para ver o relatório detalhado acesse o Dashboard.
