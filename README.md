@@ -2,7 +2,7 @@
 
 ## Project setup
 
-1 - Após baixar este projeto do github, execute o comando: <npm install>, pelo console na raiz do projeto (isso instalará todos os arquivos que este projeto dependem para rodar )
+1 - Após baixar este projeto do github, execute o comando: npm install, pelo console na raiz do projeto (isso instalará todos os arquivos que este projeto dependem para rodar )
 
 2 após ter feito 1 (acima), execute o comando: npm run serve
 
