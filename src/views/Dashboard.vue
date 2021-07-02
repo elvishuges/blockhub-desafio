@@ -39,11 +39,6 @@ export default {
           icon: "mdi-clock",
           route: "/dashboard/hours",
         },
-        {
-          title: "Editar dados",
-          icon: "mdi-content-save-edit",
-          route: "/#",
-        },
       ],
     };
   },

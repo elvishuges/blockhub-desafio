@@ -43,6 +43,31 @@
                 </v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-spacer></v-spacer>
+                <v-menu rounded="custom" offset-y>
+                  <template v-slot:activator="{ attrs, on }">
+                    <v-btn
+                      color="teal darken-1"
+                      class="white--text ma-5"
+                      v-bind="attrs"
+                      v-on="on"
+                    >
+                      Exportar...
+                    </v-btn>
+                  </template>
+
+                  <v-list>
+                    <v-list-item
+                      @click="handleClickItemExport(item)"
+                      v-for="item in exportOptions"
+                      :key="item.label"
+                      link
+                    >
+                      <v-list-item-title
+                        v-text="item.label"
+                      ></v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
               </v-toolbar>
             </template>
           </v-data-table>
@@ -109,6 +134,11 @@ export default {
     return {
       textAlertSnack: "",
 
+      exportOptions: [
+        { label: "PDF", name: "pdf" },
+        { label: "Excel", name: "excel" },
+      ],
+
       searchProject: "",
       searchDay: "",
       loadingData: false,
@@ -154,6 +184,13 @@ export default {
         { text: "Usuário", value: "user" },
       ],
     };
+  },
+  computed: {
+    csvDataProjectHoursItemsTable() {
+      return this.projectHoursItemsTable.map((item) => ({
+        ...item,
+      }));
+    },
   },
   mounted() {
     this.getHoursAndProjects();
@@ -262,6 +299,33 @@ export default {
       });
 
       return hoursInMonth;
+    },
+
+    handleClickItemExport(item) {
+      if (item.label === "Excel") {
+        this.csvExport(this.csvDataProjectHoursItemsTable);
+      } else {
+        this.textAlertSnack = "Função não disponivel no momento";
+        this.$refs["ref-alert-snack-bar"].show();
+      }
+    },
+    csvExport(arrData) {
+      let csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += [
+        Object.keys(arrData[0]).join(";"),
+        ...arrData.map((item) => Object.values(item).join(";")),
+      ]
+        .join("\n")
+        .replace(/(^\[)|(\]$)/gm, "");
+
+      const data = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", data);
+      link.setAttribute("download", "export.csv");
+      link.click();
+
+      this.textAlertSnack = "Seu arquivo será baixado...";
+      this.$refs["ref-alert-snack-bar"].show();
     },
   },
 };
