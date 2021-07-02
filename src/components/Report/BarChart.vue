@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { formatNumberToStringMonth } from "@/utils/functions";
 export default {
   name: "bar-chart",
   props: {
@@ -30,25 +31,26 @@ export default {
 
   data: function() {
     return {
+      formatNumberToStringMonth,
       width: "100%",
       chartOptions: {
         chart: {
           id: "basic-bar",
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998],
+          categories: [],
+          labels: {
+            formatter: (val) => {
+              return formatNumberToStringMonth(val);
+            },
+          },
         },
       },
-      //   series: [
-      //     {
-      //       name: "series-1",
-      //       data: [30, 40, 45, 50, 49, 60, 70, 91],
-      //     },
-      //   ],
     };
   },
   methods: {
     updateCategories(categories) {
+      console.log("new categories", categories);
       this.chartOptions.xaxis.categories = categories;
     },
   },

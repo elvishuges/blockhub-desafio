@@ -3,7 +3,8 @@
     <div v-if="!loading">
       <apexcharts
         type="pie"
-        height="240"
+        :width="width"
+        height="350"
         :options="chartOptions"
         :series="series"
       />
@@ -28,6 +29,7 @@ export default {
   },
   data() {
     return {
+      width: "100%",
       chartOptions: {
         chart: {
           width: 380,

@@ -54,9 +54,7 @@
             <v-icon large left>
               mdi-chart-bar-stacked
             </v-icon>
-            <span class="text-h6 font-weight-light"
-              >Gráfico - projetos ativos</span
-            >
+            <span class="text-h6 font-weight-light">Gráfico</span>
           </v-card-title>
           <v-card-text class="text-h5 font-weight-bold d-flex justify-center">
             <pie-chart
@@ -74,7 +72,7 @@
               mdi-chart-bar-stacked
             </v-icon>
             <span class="text-h6 font-weight-light "
-              >Gráfico - Horas ao longo dos mêses</span
+              >Gráfico - Horas ao longo dos meses</span
             >
           </v-card-title>
           <v-card-text class="text-h5 font-weight-bold">
@@ -124,7 +122,7 @@ export default {
 
       seriesBarChart: [
         {
-          label: "Horas:",
+          name: "Horas:",
           data: [],
         },
       ],
@@ -225,7 +223,6 @@ export default {
           (hour) => hour.project === project._id
         );
         if (projectHours.length) {
-          console.log("111");
           const valueHours = projectHours.reduce(
             (prev, curr) => curr.hours + prev,
             0
@@ -239,25 +236,32 @@ export default {
     },
 
     foramtBarChartData() {
-      // let chartCategories = [];
-      // let chartSeries = [];
-      this.groupByMouths(this.allHours);
+      const groups = this.groupByHoursInMonth(this.allHours);
+
+      const groupKeys = Object.keys(groups);
+      const groupsValues = Object.values(groups);
+      console.log("keys", groupKeys, "valus", groupsValues);
+      this.seriesBarChart[0] = {
+        name: "Horas",
+        data: groupsValues,
+        color: "#28c76f",
+      };
+      this.$refs.barchart.updateCategories(groupKeys);
     },
 
-    groupByMouths(data) {
-      var groups = {};
+    groupByHoursInMonth(data) {
+      let hoursInMonth = {};
 
       data.forEach(function(val) {
         var date = val.day.split("-")[1];
-        if (date in groups) {
-          groups[date].push(val.hours);
+        if (hoursInMonth[date] === undefined) {
+          hoursInMonth[date] = val.hours;
         } else {
-          groups[date] = new Array(val.hours);
+          hoursInMonth[date] += val.hours;
         }
       });
 
-      console.log(groups);
-      return groups;
+      return hoursInMonth;
     },
   },
 };
