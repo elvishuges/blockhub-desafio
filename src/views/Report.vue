@@ -73,7 +73,7 @@
             <v-icon large left>
               mdi-chart-bar-stacked
             </v-icon>
-            <span class="text-h6 font-weight-light"
+            <span class="text-h6 font-weight-light "
               >Gráfico - Horas ao longo dos mêses</span
             >
           </v-card-title>
@@ -221,22 +221,19 @@ export default {
       let chartSeries = [];
 
       this.allProject.forEach((project) => {
-        chartLabels.push(project.name);
-      });
-
-      this.allProject.forEach((project) => {
         const projectHours = this.allHours.filter(
           (hour) => hour.project === project._id
         );
         if (projectHours.length) {
+          console.log("111");
           const valueHours = projectHours.reduce(
             (prev, curr) => curr.hours + prev,
             0
           );
           chartSeries.push(valueHours);
+          chartLabels.push(project.name);
         }
       });
-      console.log("chartLabels", chartLabels);
       this.seriesChartPie = chartSeries;
       this.$refs.piechart.updateLabels(chartLabels);
     },

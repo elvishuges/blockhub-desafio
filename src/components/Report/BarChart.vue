@@ -9,7 +9,7 @@
         :series="series"
       ></apexcharts>
     </div>
-    <div v-else>
+    <div class="d-flex justify-center" v-else>
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
   </div>
