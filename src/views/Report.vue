@@ -38,9 +38,7 @@
             </template>
             <template v-slot:top>
               <v-toolbar flat color="white">
-                <v-toolbar-title>
-                  Horas/Projeto
-                </v-toolbar-title>
+                <v-toolbar-title> Horas/Projeto </v-toolbar-title>
                 <v-divider class="mx-4" inset vertical></v-divider>
                 <v-spacer></v-spacer>
                 <v-menu rounded="custom" offset-y>
@@ -76,9 +74,7 @@
       <v-col cols="12" md="5">
         <v-card class="pa-2" outlined tile>
           <v-card-title>
-            <v-icon large left>
-              mdi-chart-bar-stacked
-            </v-icon>
+            <v-icon large left> mdi-chart-bar-stacked </v-icon>
             <span class="text-h6 font-weight-light">Gráfico</span>
           </v-card-title>
           <v-card-text class="text-h5 font-weight-bold d-flex justify-center">
@@ -93,10 +89,8 @@
       <v-col cols="12">
         <v-card class="pa-2" outlined tile>
           <v-card-title>
-            <v-icon large left>
-              mdi-chart-bar-stacked
-            </v-icon>
-            <span class="text-h6 font-weight-light "
+            <v-icon large left> mdi-chart-bar-stacked </v-icon>
+            <span class="text-h6 font-weight-light"
               >Gráfico - Horas ao longo dos meses</span
             >
           </v-card-title>
@@ -219,14 +213,6 @@ export default {
         this.textAlertSnack = error.toString();
         this.$refs["ref-alert-snack-bar"].show();
       }
-      console.log(
-        "horas ",
-        this.allHours,
-        "Projetos",
-        this.allProject,
-        "usuarios",
-        this.allUsers
-      );
 
       this.loadingChartPie = false;
       this.loadingData = false;
@@ -289,7 +275,7 @@ export default {
     groupByHoursInMonth(data) {
       let hoursInMonth = {};
 
-      data.forEach(function(val) {
+      data.forEach(function (val) {
         var date = val.day.split("-")[1];
         if (hoursInMonth[date] === undefined) {
           hoursInMonth[date] = val.hours;

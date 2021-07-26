@@ -30,6 +30,9 @@ export default {
     LoginRegisterBar,
     LoginForm,
   },
+  props: {
+    text: String,
+  },
   data() {
     return {
       validFormLogin: true,

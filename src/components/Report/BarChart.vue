@@ -29,7 +29,7 @@ export default {
     },
   },
 
-  data: function() {
+  data: function () {
     return {
       formatNumberToStringMonth,
       width: "100%",
@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     updateCategories(categories) {
-      console.log("new categories", categories);
       this.chartOptions.xaxis.categories = categories;
     },
   },

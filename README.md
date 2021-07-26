@@ -20,3 +20,4 @@ caso, ao logar no projeto, ocorra erro e não caregue as informações, peço qu
 - Abra o menu lateral para acessar as outra paginas do sistema
 - para cadastrar um projeto, com suas devidas horas, acesse a item "Horas" no menu lateral.
 - para ver o relatório detalhado acesse o Dashboard.
+- Nese projeto usei, vuex, vuerouter, single file componentes, apexchart para os graficos,

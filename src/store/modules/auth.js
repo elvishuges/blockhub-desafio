@@ -13,7 +13,6 @@ const getters = {
 
 const actions = {
   AUTH_LOGIN_REQUEST: ({ commit }, payload) => {
-    console.log("#PAYLOAD LOGIN#", payload);
     return new Promise((resolve, reject) => {
       const requestParams = {
         email: payload.email,
