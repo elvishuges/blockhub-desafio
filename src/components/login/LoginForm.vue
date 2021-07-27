@@ -35,11 +35,12 @@
         :disabled="loadingSubmitBottom"
         color="primary"
         class="login"
+        data-cy="submit"
         >Login</v-btn
       >
     </v-card-actions>
     <v-card-actions>
-      <v-btn class="register" @click="register()" dark block color="secondary"
+      <v-btn data-cy="register" @click="register()" dark block color="secondary"
         >Register</v-btn
       >
     </v-card-actions>

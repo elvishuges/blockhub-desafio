@@ -63,7 +63,7 @@
           </v-row>
         </v-container>
         <v-card-actions>
-          <div style="cursor: pointer" @click="login()">
+          <div data-cy="login" style="cursor: pointer" @click="login()">
             Já possui cadastro ?
           </div>
           <v-spacer></v-spacer>
@@ -74,7 +74,7 @@
             dark
             color="secondary"
             @click="submitForm"
-            class="register"
+            data-cy="submit"
             >Cadastrar</v-btn
           >
         </v-card-actions>
