@@ -34,11 +34,14 @@
         :loading="loadingSubmitBottom"
         :disabled="loadingSubmitBottom"
         color="primary"
+        class="login"
         >Login</v-btn
       >
     </v-card-actions>
     <v-card-actions>
-      <v-btn @click="register()" dark block color="secondary">Register</v-btn>
+      <v-btn class="register" @click="register()" dark block color="secondary"
+        >Register</v-btn
+      >
     </v-card-actions>
   </div>
 </template>
@@ -66,10 +69,10 @@ export default {
     };
   },
   methods: {
-    login: function() {
+    login: function () {
       this.$emit("submitFormLogin", this.form);
     },
-    register: function() {
+    register: function () {
       this.$router.push("/register");
     },
   },

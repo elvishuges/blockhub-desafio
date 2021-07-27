@@ -44,7 +44,6 @@ export default {
   },
   methods: {
     handleClickOutside() {
-      console.log("log", this.drawer);
       this.drawer ? (this.drawer = false) : "";
     },
     handleOpenDrawerEvent() {

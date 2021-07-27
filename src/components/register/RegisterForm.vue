@@ -18,6 +18,7 @@
                 dense
                 :rules="nameRules"
                 label="Nome"
+                name="name"
                 required
                 outlined
               ></v-text-field>
@@ -28,6 +29,7 @@
                 dense
                 :rules="emailRules"
                 label="Email"
+                name="email"
                 required
                 outlined
               ></v-text-field>
@@ -41,6 +43,7 @@
                 dense
                 :rules="passwordRules"
                 label="Password"
+                name="password"
                 required
                 outlined
               ></v-text-field>
@@ -52,6 +55,7 @@
                 type="password"
                 :rules="confirmPasswordRules"
                 label="Comfirmar senha"
+                name="confirmpassword"
                 required
                 outlined
               ></v-text-field>
@@ -70,6 +74,7 @@
             dark
             color="secondary"
             @click="submitForm"
+            class="register"
             >Cadastrar</v-btn
           >
         </v-card-actions>
