@@ -21,7 +21,7 @@ describe("direct to login and register page", () => {
     // programmatically log us in without needing the UI
     cy.request({
       method: "post",
-      url: "https://api-desafio-blockub.herokuapp.com/login",
+      url: `${Cypress.env("EXTERNAL_API")}/login`,
       failOnStatusCode: false,
       body: {
         email: "emailNotRegistered@hotmail.com",
@@ -35,9 +35,24 @@ describe("direct to login and register page", () => {
     });
   });
 
+  it("programmatic login using the UI and using wrong creadencials", () => {
+    // Alias the route to wait for its response
+    cy.visit("/login");
+    cy.get("input[name=email]").type("emailNotRegistered@hotmail.com");
+    cy.get("input[name=password]").type("123456");
+    cy.get("[data-cy=submit]").click();
+    cy.intercept("POST", `${Cypress.env("EXTERNAL_API")}/login`).as("login");
+
+    // https://on.cypress.io/wait
+    cy.wait("@login")
+      .its("response.statusCode")
+      .should("eq", 403);
+  });
+
   it("go back to login interface", function() {
     // programmatically log us in without needing the UI
-    cy.get("[data-cy=login]").click();
+    cy.visit("/login");
+    cy.get("[data-cy=submit]").click();
     cy.url().should("include", "/login");
   });
 });

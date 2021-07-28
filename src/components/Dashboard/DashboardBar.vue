@@ -7,7 +7,7 @@
       ></v-img>
     </template>
 
-    <v-app-bar-nav-icon @click="openDrawer"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
     <v-toolbar-title>{{ title }}</v-toolbar-title>
   </v-app-bar>
@@ -26,15 +26,9 @@ export default {
       drawer: null,
     };
   },
-  mounted() {
-    this.drawer = this.openDrawer;
-  },
+  mounted() {},
 
-  methods: {
-    openDrawer: function() {
-      this.$emit("open-drawer");
-    },
-  },
+  methods: {},
 };
 </script>
 

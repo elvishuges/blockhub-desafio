@@ -3,5 +3,8 @@
     "componentFolder": "src",
     "testFiles": "**/*.spec.js"
   },
-  "baseUrl": "http://localhost:8080"
+  "baseUrl": "http://localhost:8080",
+  "env": {
+    "EXTERNAL_API": "https://api-desafio-blockub.herokuapp.com"
+  }
 }
